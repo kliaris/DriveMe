@@ -86,6 +86,7 @@
         <variable name="APP_ID" value="404327050403826" />
         <variable name="APP_NAME" value="DriveMe" />
     </plugin>
-    <allow-navigation href="http://192.168.1.6:8100" sessionid="51374fe1" />
+    <plugin name="cordova-plugin-nativestorage" spec="2.3.2" />
+    <allow-navigation href="http://192.168.1.6:8100" sessionid="9c811367" />
     <engine name="android" spec="7.1.4" />
 </widget>

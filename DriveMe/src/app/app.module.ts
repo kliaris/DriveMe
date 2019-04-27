@@ -9,6 +9,8 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { Facebook } from '@ionic-native/facebook/ngx';
+import { NativeStorage } from '@ionic-native/native-storage/ngx';
+
 
 @NgModule({
   declarations: [AppComponent],
@@ -18,6 +20,7 @@ import { Facebook } from '@ionic-native/facebook/ngx';
     StatusBar,
     SplashScreen,
     Facebook, 
+    NativeStorage,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

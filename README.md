@@ -1,6 +1,8 @@
 # DriveMe
 Ionic v4 app
 
+ionic cordova plugin add cordova-plugin-nativestorage
+npm install @ionic-native/native-storage
 
 https://developers.facebook.com/apps
 DriveMe 
