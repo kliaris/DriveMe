@@ -1,0 +1,17 @@
+    
+    
+{   "errors_msg":{  "yes":"yes",
+                    "no":"no",
+                    "cancel":"cancel",
+                    "facebook_login_error": "Unable to login with Facebook",
+                    "facebook_logout_error": "Unable to logout from Facebook",
+                    "logout_question":"Logout?"
+
+                  },
+    
+    "login_page":{  "title1":"Drive",
+                    "title2":"Me",
+                    "login_with_facebook":"Login with Facebook"
+
+                  }
+}
