@@ -57,7 +57,7 @@ export class FbLoginService {
           })
           .catch(e => console.log('Error logging out Facebook', e));
     })
-      
+    return promise;
   }
 
   //============================================================================================================//
