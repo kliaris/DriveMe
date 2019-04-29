@@ -1,0 +1,7 @@
+{
+  "name": "DriveMe",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}

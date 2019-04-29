@@ -1,0 +1,17 @@
+ion-row{
+    display: flex;
+    ion-col{
+        margin: auto;
+    }
+}
+
+ion-button{
+    display: flex;
+    --background: var(--ion-color-appButtonColor);
+    --border-color: var(--ion-color-appButtonBorderClr);;
+    color: var(--ion-color-appButtonTextClr);;
+    width: 100%;
+    ion-label{
+        margin: auto;
+    }
+}
