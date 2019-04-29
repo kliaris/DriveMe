@@ -1,0 +1,17 @@
+
+<ion-content class="appBg">
+      <div class="logoContainer">
+        <ion-icon src="../../../assets/imgs/driveme_logo.svg"></ion-icon>
+      </div>
+
+
+    
+      <app-button  title="login with Facebook" (click)="Login()" *ngIf="!this.fbLogin.isUserloggedIn else userIsNotLoggedIn"></app-button>
+     
+       
+      <ng-template #userIsNotLoggedIn>
+          <ion-button full (click)="Logout()">Logout </ion-button>
+      </ng-template>
+       
+        
+</ion-content>

@@ -6,6 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { FbLoginPage } from './fb-login.page';
+import { AppButtonComponent } from 'src/app/app-elements/app-button/app-button.component';
 
 const routes: Routes = [
   {
@@ -21,6 +22,6 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [FbLoginPage]
+  declarations: [FbLoginPage,AppButtonComponent]
 })
 export class FbLoginPageModule {}
