@@ -15,3 +15,14 @@ ionic cordova plugin add cordova-plugin-facebook4 --variable APP_ID="40432705040
 
 go to config.xml and set the widget id to bundle id ,
 and set the app name to DriveMe.
+
+ngx-translate multilingual
+npm install @ngx-translate/core --save
+
+By default, there is no loader available. You can add translations manually using setTranslation but it is better to use a loader. You can write your own loader, or import an existing one. For example you can use the TranslateHttpLoader that will load translations from files using HttpClient.
+
+To use it, you need to install the http-loader package from @ngx-translate:
+
+npm install @ngx-translate/http-loader --save
+
+If you want to configure a custom TranslateLoader while using AoT compilation or Ionic, you must use an exported function instead of an inline function.
