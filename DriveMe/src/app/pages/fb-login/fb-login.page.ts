@@ -14,7 +14,9 @@ export class FbLoginPage implements OnInit {
 
   ngOnInit() {
   }
-
+  //============================================================================================================//
+  //==============  on Login, call Facebook-login Service,if succeed then naviagte forward   ===================//
+  //============================================================================================================//
   async Login(){
       await this.fbLogin.fbLogIn()
       .then((response)=>{
