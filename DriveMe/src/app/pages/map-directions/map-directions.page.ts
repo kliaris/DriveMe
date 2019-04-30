@@ -23,7 +23,7 @@ export class MapDirectionsPage implements OnInit {
     this.loadMap();
     // this.startNavigating();
 
-}
+  }
 
     loadMap(){
     
@@ -61,6 +61,6 @@ export class MapDirectionsPage implements OnInit {
 
       });
 
-  }
+    }
 
 }

@@ -3,7 +3,7 @@
     <name>DriveMe</name>
     <description>An awesome Ionic/Cordova app.</description>
     <author email="hi@ionicframework.com" href="http://ionicframework.com/">Ionic Framework Team</author>
-    <content original-src="index.html" src="https://192.168.1.8:8100" />
+    <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
@@ -86,6 +86,7 @@
         <variable name="APP_ID" value="404327050403826" />
         <variable name="APP_NAME" value="DriveMe" />
     </plugin>
+    <engine name="android" spec="7.1.4" />
     <plugin name="cordova-plugin-nativestorage" spec="2.3.2" />
     <preference name="GOOGLE_MAPS_ANDROID_API_KEY" value="AIzaSyCWge2f_U45b8smjo65isswwyvbs7UeBCY" />
     <preference name="GOOGLE_MAPS_IOS_API_KEY" value="AIzaSyCWge2f_U45b8smjo65isswwyvbs7UeBCY" />
@@ -95,6 +96,4 @@
     </plugin>
     <plugin name="cordova-plugin-geolocation" spec="4.0.1" />
     <plugin name="cordova-plugin-network-information" spec="2.0.1" />
-    <allow-navigation href="https://192.168.1.8:8100" sessionid="9390b30e" />
-    <engine name="android" spec="7.1.4" />
 </widget>
