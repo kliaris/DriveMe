@@ -1,29 +1,25 @@
 import { Injectable, NgZone } from '@angular/core';
-import { Platform } from '@ionic/angular';
+import { Platform, NavController } from '@ionic/angular';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { AlerterService } from '../alerter/alerter.service';
+
 declare var google;
 
 @Injectable({
   providedIn: 'root'
 })
-export class GoogleMapsService {
-
-  // mapElement: any;
-  // pleaseConnect: any;
-  // map: any;
-  // mapInitialised: boolean = false;
-  // mapLoaded: any;
-  // mapLoadedObserver: any;
-  // currentMarker: any;
-  // apiKey: string = "AIzaSyCWge2f_U45b8smjo65isswwyvbs7UeBCY";
-
+export class LocationService {
+ 
   GoogleAutocomplete:any;
   departure:any;
   destination:any;
   autocompleteDeparture:any;
   autocompleteDestination:any;
 
-  constructor(private platform:Platform,private zone: NgZone,private geolocation: Geolocation) {
+
+  myLocation = {lat: null, lng: null};
+
+  constructor(private platform:Platform,private zone: NgZone,private geolocation: Geolocation,private alerter:AlerterService) {
         this.platform.ready().then(async()=>{ // Now safe to use
               this.GoogleAutocomplete = new google.maps.places.AutocompleteService();
               this.departure = { input: '' };
@@ -32,6 +28,8 @@ export class GoogleMapsService {
               this.autocompleteDestination = [];  
         })    
    }
+  
+
   //============================================================================================================//
   //================================   Get my Current position via Geolocation =================================//
   //============================================================================================================//
@@ -40,13 +38,14 @@ export class GoogleMapsService {
       enableHighAccuracy: true,
       timeout: 25000
     };
-
-    this.geolocation.getCurrentPosition(options).then((resp) => {
-     console.log(resp);
-      
+     /*Get Current location*/
+    this.geolocation.getCurrentPosition(options).then((position) =>  {
+        this.myLocation.lat = position.coords.latitude;
+        this.myLocation.lng = position.coords.longitude;
     }).catch((error) => {
-      console.log('Error getting location', error);
+      this.alerter.toastMessage(this.alerter.errors_msg.current_position_error)
     });
+
   }
 
   //============================================================================================================//
@@ -66,7 +65,7 @@ export class GoogleMapsService {
             predictions.forEach((prediction) => {
               this.autocompleteDeparture.push(prediction);
             });
-        }catch{console.log("input warning in getplacePredictions()")}
+        }catch{this.alerter.toastMessage(this.alerter.errors_msg.update_predictions_error)}
       });
     });
   }
@@ -84,7 +83,7 @@ export class GoogleMapsService {
           predictions.forEach((prediction) => {
             this.autocompleteDestination.push(prediction);
           });
-        }catch{console.log("input warning in getplacePredictions()")}
+        }catch{this.alerter.toastMessage(this.alerter.errors_msg.update_predictions_error)}
       });
     });
   }
@@ -112,4 +111,5 @@ export class GoogleMapsService {
   clearDestinationList(){
     this.autocompleteDestination=[];
   }
+  
 }

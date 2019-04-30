@@ -1,9 +1,14 @@
 
 <ion-header no-border no-shadow>
   <ion-toolbar>
-    <!-- <ion-title>home</ion-title> -->
+      <ion-buttons  slot="start">
+          <ion-button >
+            <ion-icon ></ion-icon>
+          </ion-button>
+        </ion-buttons>
+    <ion-title>{{this.home_page_words?.title_page}}</ion-title>
     <ion-buttons  slot="end">
-      <ion-button (click)="Logout()">
+      <ion-button (click)="logout()">
         <ion-icon slot="icon-only" name="log-out"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -11,37 +16,43 @@
 </ion-header>
 
 <ion-content padding class="appBg">
-    <!-- ============================================================================================================ -->
-    <!-- ================================   Departure searchbar  ==================================================== -->
-    <!-- ===========================================================================================(ionBlur)="clearDepartureList($event)"================= -->
-    <ion-label class="searchLabels">{{this.home_page_words?.select_departure}}</ion-label>
- 
-      <ion-searchbar [(ngModel)]="this.googleMaps.departure.input" (ionInput)="this.googleMaps.updateSearchDepartureResults()"  
-                      (ionClear)="this.googleMaps.clearDepartureList()" placeholder="Select departure place"></ion-searchbar>
-      <ion-list [hidden]="this.googleMaps.autocompleteDeparture.length == 0">
-          <ion-item  *ngFor="let item of this.googleMaps.autocompleteDeparture" tappable (click)="this.googleMaps.selectSearchDepartureResult(item)">
+   
+
+      <!-- ============================================================================================================ -->
+      <!-- ================================   Departure searchbar  ==================================================== -->
+      <!-- ============================================================================================================ -->
+      <ion-label class="searchLabels">{{this.home_page_words?.select_departure}}</ion-label>
+   
+        <ion-searchbar [(ngModel)]="this.location.departure.input" (ionInput)="this.location.updateSearchDepartureResults()"  
+          (ionClear)="this.location.clearDepartureList()"  placeholder="Select departure place"></ion-searchbar>
+
+        <ion-list [hidden]="this.location.autocompleteDeparture.length == 0">
+            <ion-item  *ngFor="let item of this.location.autocompleteDeparture" tappable (click)="this.location.selectSearchDepartureResult(item)">
+              {{ item.description }}
+            </ion-item>
+        </ion-list>
+  
+  
+      <!-- ============================================================================================================ -->
+      <!-- ================================   Destination searchbar  ================================================== -->
+      <!-- ============================================================================================================ -->
+      <ion-label class="searchLabels">{{this.home_page_words?.select_destination}}</ion-label>
+      <ion-searchbar [(ngModel)]="this.location.destination.input" (ionInput)="this.location.updateSearchDestinationResults()" 
+            (ionClear)="this.location.clearDestinationList()" placeholder="Select destination place"></ion-searchbar>
+
+      <ion-list  [hidden]="this.location.autocompleteDestination.length == 0">
+          <ion-item  *ngFor="let item of this.location.autocompleteDestination" tappable (click)="this.location.selectSearchDestinationResult(item)">
             {{ item.description }}
           </ion-item>
       </ion-list>
+      <!-- ============================================================================================================ -->
+      <!-- ==============================   Button to start the trip  ================================================= -->
+      <!-- ============================================================================================================ -->
+      <ion-row class="appButton">  
+          <ion-col  size-xs="8" size-sm="7" size-md="6" size-lg="5" size-xl="3">
+            <app-button type="submit" [title]="this.home_page_words?.start_trip"  (click)="goToMap()"></app-button>
+          </ion-col>
+      </ion-row>
+    
 
-
-    <!-- ============================================================================================================ -->
-    <!-- ================================   Destination searchbar  ================================================== -->
-    <!-- ============================================================================================================ -->
-    <ion-label class="searchLabels">{{this.home_page_words?.select_destination}}</ion-label>
-    <ion-searchbar [(ngModel)]="this.googleMaps.destination.input" (ionInput)="this.googleMaps.updateSearchDestinationResults()" 
-                   (ionClear)="this.googleMaps.clearDestinationList()" placeholder="Select destination place"></ion-searchbar>
-    <ion-list  [hidden]="this.googleMaps.autocompleteDestination.length == 0">
-        <ion-item  *ngFor="let item of this.googleMaps.autocompleteDestination" tappable (click)="this.googleMaps.selectSearchDestinationResult(item)">
-          {{ item.description }}
-        </ion-item>
-    </ion-list>
-    <!-- ============================================================================================================ -->
-    <!-- ==============================   Button to start the trip  ================================================= -->
-    <!-- ============================================================================================================ -->
-    <ion-row >  
-        <ion-col  size-xs="8" size-sm="7" size-md="6" size-lg="5" size-xl="3">
-          <app-button  [title]="this.home_page_words?.start_trip"  (click)="goToMap()"></app-button>
-        </ion-col>
-    </ion-row>
 </ion-content>

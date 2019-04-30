@@ -5,14 +5,13 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { FbLoginPage } from './fb-login.page';
+import { LoginPage } from './login.page';
 import { ElementsModule } from 'src/app/elements/elements.module';
-
 
 const routes: Routes = [
   {
     path: '',
-    component: FbLoginPage
+    component: LoginPage
   }
 ];
 
@@ -24,7 +23,7 @@ const routes: Routes = [
     ElementsModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [FbLoginPage],
-  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
+  declarations: [LoginPage]
 })
-export class FbLoginPageModule {}
+export class LoginPageModule {}
