@@ -5,8 +5,13 @@
                     "cancel":"cancel",
                     "facebook_login_error": "Unable to login with Facebook",
                     "facebook_logout_error": "Unable to logout from Facebook",
-                    "logout_question":"Logout?"
-
+                    "logout_question":"Logout?",
+                    "save_user_error":"Unable to save the user",
+                    "retrieve_user_error":"Unable to retrive the user",
+                    "remove_user_error":"Unable to remove the user",
+                    "current_position_error":"Unable to get the current position",
+                    "update_predictions_error":"Unable to update get places",
+                    "direction_not_found":"The directions about the places not found"
                   },
     
     "login_page":{  "title1":"Drive",
@@ -14,9 +19,18 @@
                     "login_with_facebook":"Login with Facebook"
 
                   },
-    "home_page":{"select_departure":"select the departure place",
+    "home_page":{ "title_page":"plan your trip",
+                  "select_departure":"select the departure place",
                   "select_destination":"select the destination place",
                   "my_location": "my location",
-                  "start_trip":"Start Trip!"
-                }
+                  "start_trip":"Start Trip!"    
+                },
+    "map_direction_page":{
+                  "title_page":"map directions",
+                  "distance":"distance: ",
+                  "duration":"duration: ",
+                  "my_trip":"my trip",
+                  "my_location":"my location"
+                 }
+
 }
