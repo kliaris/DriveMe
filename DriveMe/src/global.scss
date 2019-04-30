@@ -13,3 +13,22 @@
 .appBg{
     --background: var(--ion-color-backgroundApp);
 }
+
+ion-toolbar{
+    --background: var(--ion-color-backgroundApp);
+
+    ion-button{
+        color:var(--ion-color-appLogoutClr);
+    }
+}
+
+.logoContainer{
+    display: flex;
+    margin-top: 25%;
+    margin-bottom: 10%;
+    ion-icon{
+        width: 250px;
+        height: 250px;
+        margin: auto;
+    }
+}

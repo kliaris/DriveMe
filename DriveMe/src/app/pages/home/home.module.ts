@@ -2,11 +2,10 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
-
 import { IonicModule } from '@ionic/angular';
 
 import { HomePage } from './home.page';
-
+import { ElementsModule } from 'src/app/elements/elements.module';
 const routes: Routes = [
   {
     path: '',
@@ -19,6 +18,7 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
+    ElementsModule,
     RouterModule.forChild(routes)
   ],
   declarations: [HomePage]

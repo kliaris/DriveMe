@@ -13,5 +13,10 @@
                     "title2":"Me",
                     "login_with_facebook":"Login with Facebook"
 
-                  }
+                  },
+    "home_page":{"select_departure":"select the departure place",
+                  "select_destination":"select the destination place",
+                  "my_location": "my location",
+                  "start_trip":"Start Trip!"
+                }
 }

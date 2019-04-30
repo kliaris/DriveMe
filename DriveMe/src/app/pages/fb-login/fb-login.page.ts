@@ -18,8 +18,7 @@ export class FbLoginPage implements OnInit {
     this.platform.ready().then(async()=>{ // Now safe to use
                                           // Get the messages and the words for this page from assets/i18n/language.json file
       this.translate.get('login_page').subscribe((res) => {
-        console.log(res);
-           this.login_page_words=res;
+          this.login_page_words=res;
       });
     })     
   }
