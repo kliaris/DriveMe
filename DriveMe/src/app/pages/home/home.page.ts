@@ -6,6 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { LocationService } from 'src/app/services/location/location.service';
 import { Subscription } from 'rxjs';
 import { FormGroup} from '@angular/forms';
+import { ConnectivityService } from 'src/app/services/connectivity/connectivity.service';
 
 
 @Component({
@@ -20,7 +21,7 @@ export class HomePage implements OnInit {
   home_page_words:any;
   backbutton:Subscription;
   constructor(private platform:Platform,private translate:TranslateService,private fbLogin:FbLoginService,private alerter:AlerterService,
-              private navCtrl:NavController,private location:LocationService) {
+              private navCtrl:NavController,private location:LocationService,public connectivity:ConnectivityService) {
     this.platform.ready().then(async()=>{ // Now safe to use
                                           // Get the messages and the words for this page from assets/i18n/language.json file
           this.translate.get('home_page').subscribe((res) => {
@@ -36,7 +37,11 @@ export class HomePage implements OnInit {
   }
 
   goToMap(){
-    this.navCtrl.navigateForward('map-directions');
+    if(this.connectivity.isOnline()){
+      this.navCtrl.navigateForward('map-directions');
+    }else{
+      this.alerter.toastMessage(this.alerter.errors_msg.network_error);
+    }
   }
 
   //============================================================================================================//
