@@ -18,7 +18,7 @@
   
     <div #Map class="map"></div>
 
-    <ion-row >
+    <ion-row *ngIf="this.viewport!='myLocation'">
       <ion-col size-xs="6" size-sm="6" size-md="6" size-lg="5" size-xl="3">
         <ion-label class="distanceLabel" *ngIf="this.distance">
                   {{this.map_direction_page_words?.distance}}<span>{{this.distance}}</span>
