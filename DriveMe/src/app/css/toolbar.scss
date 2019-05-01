@@ -1,0 +1,10 @@
+ion-toolbar{ 
+    text-align: center;
+    color: var(--ion-color-appToolbarTitle);
+    --background: var(--ion-color-backgroundApp);
+
+    ion-button{
+        color:var(--ion-color-appLogoutClr);
+    }
+   
+}

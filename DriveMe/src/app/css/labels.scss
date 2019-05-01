@@ -1,0 +1,19 @@
+.searchLabels{
+    color: var(--ion-color-appSearchlabels)
+}
+.distanceLabel{
+    color: var(--ion-color-mapDetailLabel);
+    float: right;
+    span{
+        font-size: x-large;
+        border-bottom-style: solid;
+    }
+}
+.durationLabel{
+    color: var(--ion-color-mapDetailLabel);
+    float: left;
+    span{
+        font-size: x-large;
+        border-bottom-style: solid;
+    }
+}

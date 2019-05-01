@@ -3,6 +3,7 @@ import { Facebook,FacebookLoginResponse } from '@ionic-native/facebook/ngx';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { Platform } from '@ionic/angular';
 import { resolve } from 'q';
+import { AlerterService } from '../alerter/alerter.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class FbLoginService {
   userData:any=null;
   isUserloggedIn:boolean=false;
 
-  constructor(private platform:Platform, private fb:Facebook,private nativeStorage: NativeStorage) {
+  constructor(private platform:Platform, private fb:Facebook,private nativeStorage: NativeStorage,private alerter:AlerterService) {
      this.platform.ready().then(async()=>{  // Now safe to use
             // await this.removeUser();
                     
@@ -35,7 +36,7 @@ export class FbLoginService {
                           resolve("LoggedIn");
                   })  
           })
-          .catch(e => console.log('Error logging into Facebook', e));         
+          .catch(e =>this.alerter.toastMessage(this.alerter.errors_msg.facebook_login_error));         
    
       })
     
@@ -55,7 +56,7 @@ export class FbLoginService {
             this.userData=null;
             resolve("LoggedOut");
           })
-          .catch(e => console.log('Error logging out Facebook', e));
+          .catch(e =>this.alerter.toastMessage(this.alerter.errors_msg.facebook_logout_error));
     })
     return promise;
   }
@@ -67,7 +68,7 @@ export class FbLoginService {
     this.nativeStorage.setItem('activeUser', {userData: this.userData})
     .then(
       () => console.log('Stored User!'),
-      error => console.error('Error storing user', error)
+      error =>this.alerter.toastMessage(this.alerter.errors_msg.save_user_error)
     );
   }
 
@@ -83,7 +84,7 @@ export class FbLoginService {
           console.log(data);
           return data.userData
         }
-      },error => console.log("No active user found")
+      },error => this.alerter.toastMessage(this.alerter.errors_msg.retrieve_user_error)
     );
   }
   //============================================================================================================//
@@ -93,7 +94,7 @@ export class FbLoginService {
     await this.nativeStorage.remove('activeUser')
     .then(
       data =>{ console.log("User Removed")},
-      error => console.log(error)
+      error =>this.alerter.toastMessage(this.alerter.errors_msg.retrieve_user_error)
     );
   }
 }

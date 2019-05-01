@@ -10,6 +10,9 @@ import { TranslateService } from '@ngx-translate/core';
   templateUrl: 'app.component.html'
 })
 export class AppComponent {
+
+  apiKey: any = 'AIzaSyCWge2f_U45b8smjo65isswwyvbs7UeBCY'; 
+
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
@@ -22,10 +25,21 @@ export class AppComponent {
   initializeApp() {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
+      this.statusBar.backgroundColorByHexString('#00225e');
       this.splashScreen.hide();
+      //===========  use english as deafault ========//
+      this.translate.setDefaultLang('en');     
+      //=========== use google api key ==============
+      const script = document.createElement('script');
+      script.id = 'googleMap';
+      if (this.apiKey) {
+          script.src = 'https://maps.googleapis.com/maps/api/js?key=' + this.apiKey+'&v=3.exp&libraries=places&language=en';
+      } else {
+          script.src = 'https://maps.googleapis.com/maps/api/js?key=&language=en';
+      }
+      document.head.appendChild(script);
 
-      this.translate.setDefaultLang('en');
-      this.translate.use('en');
+   
     });
   }
 }

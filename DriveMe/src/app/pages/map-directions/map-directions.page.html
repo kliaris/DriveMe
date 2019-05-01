@@ -1,9 +1,49 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>map-directions</ion-title>
+      <ion-buttons slot="start">
+          <ion-button (click)="goBack()" >
+              <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+            </ion-button>
+       </ion-buttons>
+    <ion-title>{{this.map_direction_page_words?.title_page}}</ion-title>
+    <ion-buttons  slot="end">
+        <ion-button (click)="Logout()">
+          <ion-icon slot="icon-only" name="log-out"></ion-icon>
+        </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="appBg">
+  
+    <div #Map class="map"></div>
 
+    <ion-row >
+      <ion-col size-xs="6" size-sm="6" size-md="6" size-lg="5" size-xl="3">
+        <ion-label class="distanceLabel" *ngIf="this.distance">
+                  {{this.map_direction_page_words?.distance}}<span>{{this.distance}}</span>
+        </ion-label>
+      </ion-col>
+      <ion-col size-xs="6" size-sm="6" size-md="6" size-lg="5" size-xl="3">
+        <ion-label  class="durationLabel" *ngIf="this.duration">
+                  {{this.map_direction_page_words?.duration}}<span>{{this.duration}}</span>
+        </ion-label>
+      </ion-col>
+    </ion-row>
+
+
+    <ion-row class="appButton fixPosition" *ngIf="this.viewport=='myLocation'; else showMyLocation" >  
+        <ion-col  size-xs="8" size-sm="7" size-md="6" size-lg="5" size-xl="3">
+          <app-button  [title]="this.map_direction_page_words?.my_trip" (click)="getTheDirections(this.location.departure.input,this.location.destination.input)"></app-button>
+        </ion-col>
+    </ion-row>
+
+    <ng-template #showMyLocation>
+      <ion-row class="appButton fixPosition">  
+          <ion-col  size-xs="8" size-sm="7" size-md="6" size-lg="5" size-xl="3">
+            <app-button  [title]="this.map_direction_page_words?.my_location"  (click)="getMyLocation()"></app-button>
+          </ion-col>
+      </ion-row>
+    </ng-template>
+    
 </ion-content>

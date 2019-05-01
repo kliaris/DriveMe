@@ -1,0 +1,10 @@
+.alerterCustom{
+    .alert-message{
+        color: var(--ion-color-appAlerterMessage);
+    }
+    .alert-button-group{
+        button{
+            color: var(--ion-color-appAlerterButtonText);
+        }
+    }
+}

@@ -44,7 +44,7 @@ export class AlerterService {
                       
                       handler: () => {
                         console.log(msg + ': Cancelled');
-                        resolve("YES");
+                        resolve("No");
                       }
                     }, {
                       text: this.errors_msg.yes,
