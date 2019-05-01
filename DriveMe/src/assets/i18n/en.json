@@ -11,7 +11,8 @@
                     "remove_user_error":"Unable to remove the user",
                     "current_position_error":"Unable to get the current position",
                     "update_predictions_error":"Unable to update get places",
-                    "direction_not_found":"The directions about the places not found"
+                    "direction_not_found":"The directions about the places not found",
+                    "network_error":"No internet connection"
                   },
     
     "login_page":{  "title1":"Drive",

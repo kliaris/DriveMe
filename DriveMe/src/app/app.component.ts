@@ -25,10 +25,10 @@ export class AppComponent {
   initializeApp() {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
+      this.statusBar.backgroundColorByHexString('#00225e');
       this.splashScreen.hide();
       //===========  use english as deafault ========//
-      this.translate.setDefaultLang('en');
-      this.translate.use('en');
+      this.translate.setDefaultLang('en');     
       //=========== use google api key ==============
       const script = document.createElement('script');
       script.id = 'googleMap';
