@@ -14,7 +14,7 @@ Before we start developing the app, it's a good idea to think the app should be 
 * i18n for multilingual ( https://github.com/ngx-translate/core )
 * Native storage ( https://ionicframework.com/docs/native/native-storage )
 
-### Login with Facebook credentials
+## Login with Facebook credentials
 We need the official plugin for Facebook in Apache Cordova that implements the latest Facebook SDK.( https://github.com/jeduan/cordova-plugin-facebook4 )
 To use the FB plugin,we have to create a new Facebook App inside of the Facebook developer portal at https://developers.facebook.com/apps.
 
@@ -102,49 +102,235 @@ async fbLogIn(){
   }
   ```
   
-  
+## Enable Google Maps Platform
+First of all, we need to get an API key to be able to make requests to the Google Maps API. https://developers.google.com/
+Then,we load the google script dynammicaly at the initialization of the app, in the app.component.ts .
+```
+//=========== use google api key ==============
+      const script = document.createElement('script');
+      script.id = 'googleMap';
+      if (this.apiKey) {
+          script.src = 'https://maps.googleapis.com/maps/api/js?key=' + this.apiKey+'&v=3.exp&libraries=places&language=en';
+      } else {
+          script.src = 'https://maps.googleapis.com/maps/api/js?key=&language=en';
+      }
+      document.head.appendChild(script);
+```
 
+## Autocomplete searchbars with google places
+At the home.page.html we create two searchbar (one for departure point and one for the destination point).
+```
+ <ion-label class="searchLabels">{{this.home_page_words?.select_departure}}</ion-label>
+   
+        <ion-searchbar [(ngModel)]="this.location.departure.input" (ionInput)="this.location.updateSearchDepartureResults()"  
+          (ionClear)="this.location.clearDepartureList()"  placeholder="Select departure place"></ion-searchbar>
 
+        <ion-list [hidden]="this.location.autocompleteDeparture.length == 0">
+            <ion-item  *ngFor="let item of this.location.autocompleteDeparture" tappable (click)="this.location.selectSearchDepartureResult(item)">
+              {{ item.description }}
+            </ion-item>
+        </ion-list>
+        
+        <ion-label class="searchLabels">{{this.home_page_words?.select_destination}}</ion-label>
+      <ion-searchbar [(ngModel)]="this.location.destination.input" (ionInput)="this.location.updateSearchDestinationResults()" 
+            (ionClear)="this.location.clearDestinationList()" placeholder="Select destination place"></ion-searchbar>
 
-
-ionic cordova plugin add cordova-plugin-nativestorage
-npm install @ionic-native/native-storage
-
-https://developers.facebook.com/apps
-DriveMe 
-APP ID: 404327050403826
-at app setting add platform for both ios and android to set bundle id
-bundle id:com.DriveMe
-
-Enable Google Maps Platform
-AIzaSyCWge2f_U45b8smjo65isswwyvbs7UeBCY
-
-npm install --save @ionic-native/facebook
-ionic cordova plugin add cordova-plugin-facebook4 --variable APP_ID="404327050403826" --variable APP_NAME="DriveMe"
-
-go to config.xml and set the widget id to bundle id ,
-and set the app name to DriveMe.
-
-ngx-translate multilingual
-npm install @ngx-translate/core --save
-
-By default, there is no loader available. You can add translations manually using setTranslation but it is better to use a loader. You can write your own loader, or import an existing one. For example you can use the TranslateHttpLoader that will load translations from files using HttpClient.
-
-To use it, you need to install the http-loader package from @ngx-translate:
-
-npm install @ngx-translate/http-loader --save
-
-If you want to configure a custom TranslateLoader while using AoT compilation or Ionic, you must use an exported function instead of an inline function.
-
-
-
--------------------------
-First of all, you need to generate API keys for Google Maps APIs.
-
-How to generate API keys?
-Second, run following command to install @ionic-native/core and @ionic-native/google-maps plugins in your project.
-
+      <ion-list  [hidden]="this.location.autocompleteDestination.length == 0">
+          <ion-item  *ngFor="let item of this.location.autocompleteDestination" tappable (click)="this.location.selectSearchDestinationResult(item)">
+            {{ item.description }}
+          </ion-item>
+      </ion-list>
+      
+  ```
+I will describe the functionality for the departure searchbar.Τhe same functionality exists for the destination searhbar.
+Everytime the searchbar input is updated we will trigger updateSearchDepartureResults() method witch is located at locationService.ts. In this method we will make a request to Google Autocomplete service and ask for Places predictions based on the input typed.
+```
+updateSearchDepartureResults(){
+    if (this.departure.input == '') { 
+      this.autocompleteDeparture = [];
+      return;
+    }    
+    this.GoogleAutocomplete.getPlacePredictions({ input: this.departure.input },
+    (predictions) => {
+      this.autocompleteDeparture = [];
+      this.zone.run(() => {
+        try{
+            predictions.forEach((prediction) => {
+              this.autocompleteDeparture.push(prediction);
+            });
+        }catch{this.alerter.toastMessage(this.alerter.errors_msg.update_predictions_error)}
+      });
+    });
+  }
+  ```
+  when the user select one of the google prediction selectSearchDepartureResult() method is called.We get the description of place and the clear the array with google's predictions.
+  ```
+  selectSearchDepartureResult(item){
+    console.log(item);
+      this.departure.input=item.description;
+      this.autocompleteDeparture = [];
+  }
+  ```
+## Google maps with polyline, distance and duration
+First of all,to use google maps services we need to install some plugins.
+```
 npm install @ionic-native/core@beta @ionic-native/google-maps@beta
-
 ionic cordova plugin add https://github.com/mapsplugin/cordova-plugin-googlemaps#multiple_maps
 npm install @types/google-maps --save
+```
+Then in our application,when the user select the departure and the destination point and press the "start trip" button, we are navigating to the next page.At the map-direction page lets set up the map.
+```
+<div #Map class="map"></div>
+
+    <ion-row *ngIf="this.viewport!='myLocation'">
+      <ion-col size-xs="6" size-sm="6" size-md="6" size-lg="5" size-xl="3">
+        <ion-label class="distanceLabel" *ngIf="this.distance">
+                  {{this.map_direction_page_words?.distance}}<span>{{this.distance}}</span>
+        </ion-label>
+      </ion-col>
+      <ion-col size-xs="6" size-sm="6" size-md="6" size-lg="5" size-xl="3">
+        <ion-label  class="durationLabel" *ngIf="this.duration">
+                  {{this.map_direction_page_words?.duration}}<span>{{this.duration}}</span>
+        </ion-label>
+      </ion-col>
+    </ion-row>
+```
+we need a div for the map, and two labels for the distance and the duration of the user's trip.Don't forget to give some width at the map, to make sure the it will appear at the viewport.
+```.map {
+    width: 100%;
+    height:70%;
+}
+```
+In this time getTheDirections() function is called.We configure the directionsService by calling the route method and supplying it with an object that details the departure and destination, as well as the mode of travel.If the response of google is the expected response, then we call the getDistanceMatrix to get the distance and the duration.
+```
+async getTheDirections(departure:any,destination:any){
+    if(this.connectivity.isOnline()){    //check for network
+
+      const loadingC = await this.loadingController.create({
+        spinner:'crescent',
+        message: 'Please wait...',
+        translucent: true
+        // cssClass: ''
+      });
+      await loadingC.present();
+      this.viewport="polyline";
+  
+        /*Map options*/
+      this.mapOptions = {
+        // center: this.googleMaps.myLocation,
+        zoom: 18,
+        mapTypeControl: false
+    };
+    await setTimeout(async () => {
+        this.map = new google.maps.Map(this.mapElement.nativeElement, this.mapOptions);
+  
+          let directionsService = new google.maps.DirectionsService;
+          let directionsDisplay = new google.maps.DirectionsRenderer;
+          let matrix = new google.maps.DistanceMatrixService();
+  
+          directionsDisplay.setMap(this.map);
+     
+          await directionsService.route({
+              origin: departure,
+              destination: destination,
+              travelMode: google.maps.TravelMode['DRIVING']
+          }, (res, status) => {      
+                                            // if directions found then call for distance matrix
+              if(status == google.maps.DirectionsStatus.OK){
+                  directionsDisplay.setDirections(res);    
+                  matrix.getDistanceMatrix(
+                    {
+                      origins: [departure],
+                      destinations: [destination],
+                      travelMode: 'DRIVING',     
+                    },  (res, status) => {
+          
+                      if (status == google.maps.DistanceMatrixStatus.OK) {
+                        this.distance=res.rows[0].elements[0].distance.text;
+                        this.duration=res.rows[0].elements[0].duration.text;
+                        console.log(res);
+                      }else{
+                        console.log(status);
+                      }
+                  });
+              } else {
+                this.getMyLocation();
+                this.alerter.toastMessage(this.alerter.errors_msg.direction_not_found);
+                console.log(status);
+              }
+          });
+          await loadingC.dismiss();
+    }, 3000);
+    
+    }else{
+      this.alerter.toastMessage(this.alerter.errors_msg.network_error);
+    }
+  }
+```
+
+## Get current position
+To get the user's location we need to install geolocation plugin
+```
+ionic cordova plugin add cordova-plugin-geolocation
+npm install --save @ionic-native/geolocation@4
+```
+In the same page with trip directions, with have a button which it calls getMyLocation() function.This function get the user's current position and displaying it at the map.
+```
+async getMyLocation(){
+    if(this.connectivity.isOnline()){    //check for network
+    
+      const loadingC = await this.loadingController.create({
+        spinner:'crescent',
+        message: 'Please wait...',
+        translucent: true
+        // cssClass: ''
+      });
+      await loadingC.present();
+      this.viewport="myLocation";
+  
+      await this.location.getCurrentPosition();
+      /*Map options*/
+      this.mapOptions = {
+          center: this.location.myLocation,
+          zoom: 17,
+          mapTypeControl: false
+      };
+      await setTimeout(async () => {
+          this.map = new google.maps.Map(this.mapElement.nativeElement, this.mapOptions);
+          /*Marker Options*/
+          this.markerOptions.position = this.location.myLocation;
+          this.markerOptions.map = this.map;
+          this.markerOptions.title = 'My Location';
+          this.marker = new google.maps.Marker(this.markerOptions);
+          await loadingC.dismiss();
+      }, 3000);
+    }else{
+      this.alerter.toastMessage(this.alerter.errors_msg.network_error);
+    }
+ ```
+ ```
+   getCurrentPosition(){
+    let options = {
+      enableHighAccuracy: true,
+      timeout: 25000
+    };
+     /*Get Current location*/
+    this.geolocation.getCurrentPosition(options).then((position) =>  {
+        this.myLocation.lat = position.coords.latitude;
+        this.myLocation.lng = position.coords.longitude;
+    }).catch((error) => {
+      this.alerter.toastMessage(this.alerter.errors_msg.current_position_error)
+    });
+
+  }
+```
+##Screenshots
+![alt text](./DriveMe/readme/driveme1.png) 
+![alt text](./DriveMe/readme/driveme2.png) 
+![alt text](./DriveMe/readme/driveme3.png) 
+![alt text](./DriveMe/readme/driveme4.png) 
+![alt text](./DriveMe/readme/driveme5.png) 
+
+
+
+
