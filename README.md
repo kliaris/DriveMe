@@ -1,7 +1,16 @@
 # DriveMe
 # Introduction
 In this repo i'm going to cover how to implement some of Google Maps functions inside an Ionic v4 app, using Places and Directions Google's Maps API.
-## Basic operation of DriveMe
+# Getting Started
+## Build and Installation
+If you want to skip the implementing steps of this project you can clone or download this repo and build or run the app with a IDE such Visual Studio Code, or download to your android phone the 'DriveMe.apk' file which is in the DriveMe folder.
+## Build and run from Visual Studio
+If you want to check the project from visual studio, clone it or download and open with the editor the DriveMe folder.You can't run the application in a browser on your pc, because there are plugins that runs only on a smartphone(geolocation plugin).To run the application connect your phone, with enabled the developer options and the debugging USB mode(https://developer.android.com/studio/debug/dev-options).Then, open the terminal of the visual studio(Alternatively you  can open a command prompt in the path of DriveMe folder) and type ``` ionic cordova run android -ssl ``` With this command, we perfom a ionic build, and then deploying to the device.With the option android we declare the platform(android,ios). Google Apis and Geolocation may need the -ssl option to use se HTTPS for the dev server.For more information about ionic options you can check this https://ionicframework.com/docs/cli/commands/cordova-run .
+## Install APK 
+You can download the DriveMe.apk from DriveMe folder to your android phone.The application is not recognized from Google Play store, because it is just for development purposes.So, you must allow installation of apps from unknown sources, to your android phone.
+
+# Deployment
+## Basic operation and design of DriveMe
 * The user should log in in the app using his/her Facebook credentials
 * The user give two geolocation places int two autocomplete fields which will take the values from
 google places.
@@ -13,21 +22,25 @@ Before we start developing the app, it's a good idea to think the app should be 
 * Network plugin (https://ionicframework.com/docs/native/network )
 * i18n for multilingual ( https://github.com/ngx-translate/core )
 * Native storage ( https://ionicframework.com/docs/native/native-storage )
-
 ## Login with Facebook credentials
 We need the official plugin for Facebook in Apache Cordova that implements the latest Facebook SDK.( https://github.com/jeduan/cordova-plugin-facebook4 )
 To use the FB plugin,we have to create a new Facebook App inside of the Facebook developer portal at https://developers.facebook.com/apps.
 
 ![alt text](./DriveMe/readme/fbID.PNG)
-install plugin
+
+Install plugin 
+
 ```
 ionic cordova plugin add cordova-plugin-facebook4 --variable APP_ID="404327050403***" --variable APP_NAME="DriveMe"
 ```
 In the config.xml and set your app id and then set bundle id and google play package name of facebook app as below
-![alt text](./DriveMe/readme/fb-bundleid.PNG) ![alt text](./DriveMe/readme/fb-googlePlay.PNG) ![alt text](./DriveMe/readme/configID.PNG)
+![alt text](./DriveMe/readme/fb-bundleid.PNG)
+![alt text](./DriveMe/readme/fb-googlePlay.PNG) 
+![alt text](./DriveMe/readme/configID.PNG)
 
 Then we must generate hash keys 
-![alt text](./DriveMe/readme/hashkeys.jpg) ![alt text](./DriveMe/readme/fbhashkey.jpg)
+![alt text](./DriveMe/readme/hashkeys.jpg)
+![alt text](./DriveMe/readme/fbhashkey.jpg)
 
 Now we create a service in the app to implement the facebook login-logout,
 ``` ionic g service fb-login ```
@@ -325,11 +338,12 @@ async getMyLocation(){
   }
 ```
 ##Screenshots
-![alt text](./DriveMe/readme/driveme1.png) 
-![alt text](./DriveMe/readme/driveme2.png) 
-![alt text](./DriveMe/readme/driveme3.png) 
-![alt text](./DriveMe/readme/driveme4.png) 
-![alt text](./DriveMe/readme/driveme5.png) 
+
+<img src="./DriveMe/readme/driveme1.png" height="665px" width="365px">
+<img src="./DriveMe/readme/driveme2.png" height="665px" width="365px">
+<img src="./DriveMe/readme/driveme3.png" height="665px" width="365px">
+<img src="./DriveMe/readme/driveme4.png" height="665px" width="365px">
+<img src="./DriveMe/readme/driveme5.png" height="665px" width="365px">
 
 
 
